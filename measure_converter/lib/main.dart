@@ -8,12 +8,25 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
+  String _startMeasure;
+
+  final List<String> _measures = [
+    'meters',
+    'kilometers',
+    'grams',
+    'kilograms',
+    'feet',
+    'miles',
+    'pounds (lbs)',
+    'ounces',
+  ];
+
   double _numberFrom;
 
-    @override 
+  @override
   void initState() {
-  _numberFrom = 0;
-  super.initState();
+    _numberFrom = 0;
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -24,15 +37,33 @@ class MyAppState extends State<MyApp> {
           title: Text('Measures Converter'),
         ),
         body: Center(
-          child: Column(children: [TextField(onChanged: (text) {
-            var rv = double.tryParse(text);
-            if (rv != null) {
-              setState(() {
-                _numberFrom = rv;
-              });
-            }
-          }), Text((_numberFrom == null) ? '' : _numberFrom.toString())],)
-        ),
+            child: Column(
+          children: [
+            DropdownButton(
+              items: _measures.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _startMeasure = value;
+                });
+              },
+              value: _startMeasure,
+            ),
+            TextField(onChanged: (text) {
+              var rv = double.tryParse(text);
+              if (rv != null) {
+                setState(() {
+                  _numberFrom = rv;
+                });
+              }
+            }),
+            Text((_numberFrom == null) ? '' : _numberFrom.toString())
+          ],
+        )),
       ),
     );
   }
