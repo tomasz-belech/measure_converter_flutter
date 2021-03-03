@@ -9,6 +9,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   String _startMeasure;
+  String _convertedMeasure;
 
   final List<String> _measures = [
     'meters',
@@ -29,6 +30,16 @@ class MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  final TextStyle inputStyle = TextStyle(
+    fontSize: 20,
+    color: Colors.blue[900],
+  );
+
+  final TextStyle labelStyle = TextStyle(
+    fontSize: 24,
+    color: Colors.grey[700],
+  );
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Measures Converter',
@@ -36,34 +47,95 @@ class MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Measures Converter'),
         ),
-        body: Center(
+        body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-          children: [
-            DropdownButton(
-              items: _measures.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _startMeasure = value;
-                });
-              },
-              value: _startMeasure,
-            ),
-            TextField(onChanged: (text) {
-              var rv = double.tryParse(text);
-              if (rv != null) {
-                setState(() {
-                  _numberFrom = rv;
-                });
-              }
-            }),
-            Text((_numberFrom == null) ? '' : _numberFrom.toString())
-          ],
-        )),
+              children: [
+                Spacer(),
+                Text(
+                  'Value',
+                  style: labelStyle,
+                ),
+                Spacer(),
+                TextField(
+                  style: inputStyle,
+                  decoration: InputDecoration(
+                    hintText: 'Please insert the measure to be converted',
+                  ),
+                  onChanged: (text) {
+                    var rv = double.tryParse(text);
+                    if (rv != null) {
+                      setState(() {
+                        _numberFrom = rv;
+                      });
+                    }
+                  },
+                ),
+                Spacer(),
+                Text(
+                  'From',
+                  style: labelStyle,
+                ),
+                DropdownButton(
+                    isExpanded: true,
+                    items: _measures.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _startMeasure = value;
+                      });
+                    },
+                    value: _startMeasure,
+                    ),
+                Spacer(),
+                Text(
+                  'To',
+                  style: labelStyle,
+                ),
+                DropdownButton(
+                    isExpanded: true,
+                    items: _measures.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _convertedMeasure = value;
+                      });
+                    },
+                    value: _convertedMeasure,
+                    ),
+                DropdownButton(
+                  items: _measures.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _startMeasure = value;
+                    });
+                  },
+                  value: _startMeasure,
+                ),
+                TextField(onChanged: (text) {
+                  var rv = double.tryParse(text);
+                  if (rv != null) {
+                    setState(() {
+                      _numberFrom = rv;
+                    });
+                  }
+                }),
+                Text((_numberFrom == null) ? '' : _numberFrom.toString())
+              ],
+            )),
       ),
     );
   }
