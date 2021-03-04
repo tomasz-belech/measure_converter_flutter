@@ -76,8 +76,10 @@ class MyAppState extends State<MyApp> {
                   'From',
                   style: labelStyle,
                 ),
+                Spacer(),
                 DropdownButton(
                     isExpanded: true,
+                    style: inputStyle,
                     items: _measures.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -96,8 +98,10 @@ class MyAppState extends State<MyApp> {
                   'To',
                   style: labelStyle,
                 ),
+                Spacer(),
                 DropdownButton(
                     isExpanded: true,
+                    style: inputStyle,
                     items: _measures.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
